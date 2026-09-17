@@ -1,14 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
-  Braces,
   CalendarDays,
   Check,
   CircleDollarSign,
   Code2,
-  Layers3,
   Menu,
   Palette,
   Sparkles,
@@ -83,10 +82,31 @@ const projects = [
   },
 ];
 
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 34 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.2, 0.8, 0.2, 1] } },
+};
+
+const gridContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+const gridItem: Variants = {
+  hidden: { opacity: 0, y: 46 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.2, 0.8, 0.2, 1] } },
+};
+
+const inView = { initial: "hidden", whileInView: "visible", viewport: { once: true, amount: 0.2 } } as const;
+
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const reduced = useReducedMotion();
+
+  const tap = reduced ? undefined : { scale: 0.97 };
+  const buttonHover = reduced ? undefined : { scale: 1.03, y: -3 };
 
   useEffect(() => {
     const updateProgress = () => {
@@ -121,18 +141,30 @@ function Index() {
           <a href="#contact" onClick={closeMenu}>Contact</a>
         </nav>
 
-        <a className="header-cta" href="#contact">
+        <motion.a
+          className="header-cta"
+          href="#contact"
+          whileHover={buttonHover}
+          whileTap={tap}
+          animate={reduced ? undefined : { boxShadow: [
+            "inset 0 0 18px var(--cyan-soft), 0 0 0px var(--cyan-soft)",
+            "inset 0 0 26px var(--cyan-soft), 0 0 22px var(--cyan-soft)",
+            "inset 0 0 18px var(--cyan-soft), 0 0 0px var(--cyan-soft)",
+          ] }}
+          transition={{ boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+        >
           Start a project <ArrowUpRight size={15} />
-        </a>
-        <button
+        </motion.a>
+        <motion.button
           className="menu-toggle"
           type="button"
           aria-label={menuOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={menuOpen}
+          whileTap={tap}
           onClick={() => setMenuOpen((open) => !open)}
         >
           {menuOpen ? <X size={21} /> : <Menu size={21} />}
-        </button>
+        </motion.button>
       </header>
 
       <main>
@@ -144,15 +176,58 @@ function Index() {
           <span className="spark spark-one">✦</span>
           <span className="spark spark-two">✦</span>
           <div className="hero-content">
-            <div className="eyebrow"><span /> Web Systems &amp; Digital Architecture</div>
-            <h1>We build <em>high-conversion</em><br />web systems</h1>
-            <p>
+            <motion.div
+              className="eyebrow"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.span
+                animate={reduced ? undefined : { opacity: [0.5, 1, 0.5], scale: [0.9, 1.2, 0.9] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+              />{" "}
+              Web Systems &amp; Digital Architecture
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
+            >
+              We build <em>high-conversion</em> web systems
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.25 }}
+            >
               Technical precision meets creative direction. We design digital infrastructure
               that looks exceptional and performs with purpose.
-            </p>
-            <a className="primary-cta" href="#contact">
+            </motion.p>
+            <motion.a
+              className="primary-cta"
+              href="#contact"
+              initial={{ opacity: 0, y: 20 }}
+              animate={reduced
+                ? { opacity: 1, y: 0 }
+                : {
+                    opacity: 1,
+                    y: 0,
+                    boxShadow: [
+                      "0 0 22px var(--cyan-soft)",
+                      "0 0 48px color-mix(in oklab, var(--cyan) 34%, transparent)",
+                      "0 0 22px var(--cyan-soft)",
+                    ],
+                  }}
+              transition={{
+                opacity: { duration: 0.6, delay: 0.4 },
+                y: { duration: 0.6, delay: 0.4 },
+                boxShadow: { duration: 2.8, repeat: Infinity, ease: "easeInOut" },
+              }}
+              whileHover={buttonHover}
+              whileTap={tap}
+            >
               Initiate project discussion <ArrowRight size={17} />
-            </a>
+            </motion.a>
           </div>
           <a className="scroll-cue" href="#about" aria-label="Scroll to studio directors">
             <span>Explore the studio</span><ArrowDown size={16} />
@@ -160,13 +235,24 @@ function Index() {
         </section>
 
         <section className="section founders-section" id="about">
-          <div className="section-heading reveal">
+          <motion.div className="section-heading" variants={reveal} {...inView}>
             <div><span className="section-index">01</span><span className="kicker">Two disciplines. One system.</span></div>
             <h2>Built where logic<br />meets <em>imagination.</em></h2>
-          </div>
+          </motion.div>
 
           <div className="founder-grid">
-            <article className="founder-card founder-technical reveal">
+            <motion.article
+              className="founder-card founder-technical"
+              variants={reveal}
+              {...inView}
+              whileHover={reduced ? undefined : {
+                y: -8,
+                scale: 1.01,
+                borderColor: "color-mix(in oklab, var(--cyan) 70%, transparent)",
+                boxShadow: "0 30px 80px color-mix(in oklab, var(--cyan) 18%, transparent), 0 0 42px color-mix(in oklab, var(--cyan) 30%, transparent)",
+              }}
+              transition={{ type: "spring", stiffness: 240, damping: 24 }}
+            >
               <div className="card-topline"><span>TECHNICAL DIRECTION</span><Code2 size={18} /></div>
               <div className="founder-copy">
                 <span className="founder-number">A / 01</span>
@@ -181,9 +267,20 @@ function Index() {
                 <div className="system-status"><i /> SYSTEMS OPERATIONAL</div>
               </div>
               <Sparkles className="card-spark" size={24} />
-            </article>
+            </motion.article>
 
-            <article className="founder-card founder-creative reveal">
+            <motion.article
+              className="founder-card founder-creative"
+              variants={reveal}
+              {...inView}
+              whileHover={reduced ? undefined : {
+                y: -8,
+                scale: 1.01,
+                borderColor: "color-mix(in oklab, var(--amber) 70%, transparent)",
+                boxShadow: "0 30px 80px color-mix(in oklab, var(--amber) 18%, transparent), 0 0 42px color-mix(in oklab, var(--amber) 30%, transparent)",
+              }}
+              transition={{ type: "spring", stiffness: 240, damping: 24 }}
+            >
               <div className="card-topline"><span>CREATIVE DIRECTION</span><Palette size={18} /></div>
               <div className="founder-copy">
                 <span className="founder-number">D / 02</span>
@@ -199,19 +296,39 @@ function Index() {
                 <p>FORM / FEELING / FUNCTION</p>
               </div>
               <Sparkles className="card-spark" size={24} />
-            </article>
+            </motion.article>
           </div>
         </section>
 
         <section className="section featured-section" id="work">
-          <div className="section-heading compact reveal">
+          <motion.div className="section-heading compact" variants={reveal} {...inView}>
             <div><span className="section-index">02</span><span className="kicker">Featured infrastructure</span></div>
             <h2>A studio operating system,<br /><em>fully connected.</em></h2>
-          </div>
+          </motion.div>
 
-          <article className="featured-card reveal">
+          <motion.article
+            className="featured-card"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+          >
             <div className="featured-copy">
-              <div className="badge-row"><span>Enterprise SaaS</span><span className="live-badge"><i /> Live Infrastructure</span></div>
+              <div className="badge-row">
+                <motion.span
+                  animate={reduced ? undefined : { y: [0, -4, 0] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  Enterprise SaaS
+                </motion.span>
+                <motion.span
+                  className="live-badge"
+                  animate={reduced ? undefined : { y: [0, -4, 0], opacity: [1, 0.78, 1] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                  <i /> Live Infrastructure
+                </motion.span>
+              </div>
               <h3>Wedding Studio<br />Management System</h3>
               <p>A unified command center for modern wedding studios—from the first enquiry to the final payment.</p>
               <ul>
@@ -226,19 +343,33 @@ function Index() {
               <div className="metric-float metric-top"><span>THIS MONTH</span><b>24 bookings</b><em>+20%</em></div>
               <div className="metric-float metric-bottom"><Check size={15} /><span>Milestone paid</span><b>₹2,50,000</b></div>
             </div>
-          </article>
+          </motion.article>
         </section>
 
         <section className="section work-section">
-          <div className="section-heading reveal">
+          <motion.div className="section-heading" variants={reveal} {...inView}>
             <div><span className="section-index">03</span><span className="kicker">Selected client work</span></div>
             <h2>Different industries.<br /><em>Distinct digital worlds.</em></h2>
-          </div>
-          <div className="project-grid">
+          </motion.div>
+          <motion.div
+            className="project-grid"
+            variants={gridContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
             {projects.map((project) => (
-              <article className="project-card reveal" key={project.title}>
+              <motion.article className="project-card" key={project.title} variants={gridItem}>
                 <div className="project-image-wrap">
-                  <img src={project.image} alt={project.alt} width={1200} height={800} loading="lazy" />
+                  <motion.img
+                    src={project.image}
+                    alt={project.alt}
+                    width={1200}
+                    height={800}
+                    loading="lazy"
+                    whileHover={reduced ? undefined : { scale: 1.05 }}
+                    transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  />
                   <span className="project-number">{project.number}</span>
                   <div className="project-arrow"><ArrowUpRight size={20} /></div>
                 </div>
@@ -247,9 +378,9 @@ function Index() {
                   <p className="project-description">{project.description}</p>
                 </div>
                 <div className="tag-list project-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-              </article>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
         </section>
 
         <section className="contact-section orbital-field" id="contact">
@@ -257,15 +388,15 @@ function Index() {
           <span className="orbit contact-orbit-two" />
           <span className="spark contact-spark">✦</span>
           <div className="contact-inner">
-            <div className="contact-copy reveal">
+            <motion.div className="contact-copy" variants={reveal} {...inView}>
               <span className="section-index">04</span>
               <div className="eyebrow"><span /> Start a conversation</div>
               <h2>Ready to elevate your<br /><em>digital presence?</em></h2>
               <p>Tell us what you’re building. We’ll bring the strategy, systems, and creative direction to move it forward.</p>
               <a href="mailto:hello@adstudio.co">hello@adstudio.co <ArrowUpRight size={16} /></a>
-            </div>
+            </motion.div>
 
-            <form className="contact-form reveal" onSubmit={handleSubmit}>
+            <motion.form className="contact-form" onSubmit={handleSubmit} variants={reveal} {...inView}>
               <div className="form-row">
                 <label><span>Name</span><input name="name" type="text" placeholder="Your name" required /></label>
                 <label><span>Email</span><input name="email" type="email" placeholder="you@company.com" required /></label>
@@ -278,11 +409,11 @@ function Index() {
                 </select>
               </label>
               <label><span>Tell us about the project</span><textarea name="message" placeholder="Goals, scope, timeline..." rows={4} required /></label>
-              <button className="submit-button" type="submit">
+              <motion.button className="submit-button" type="submit" whileHover={buttonHover} whileTap={tap}>
                 {submitted ? <><Check size={18} /> Message received</> : <>Initiate project discussion <ArrowRight size={18} /></>}
-              </button>
+              </motion.button>
               {submitted && <p className="form-success" role="status">Thank you. We’ll be in touch to continue the conversation.</p>}
-            </form>
+            </motion.form>
           </div>
         </section>
       </main>
