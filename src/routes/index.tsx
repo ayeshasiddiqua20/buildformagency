@@ -25,13 +25,13 @@ import weddingSaas from "@/assets/wedding-saas.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "A+D Studio — Web Systems & Digital Architecture" },
+      { title: "Build Form Agency — Web Systems & Digital Architecture" },
       {
         name: "description",
         content:
           "A technical and creative studio building high-conversion web systems, SaaS platforms, and distinctive digital experiences.",
       },
-      { property: "og:title", content: "A+D Studio — Web Systems & Digital Architecture" },
+      { property: "og:title", content: "Build Form Agency — Web Systems & Digital Architecture" },
       {
         property: "og:description",
         content: "High-conversion web systems shaped by technical precision and creative direction.",
@@ -52,6 +52,7 @@ const projects = [
     tags: ["Web Design", "Reservations"],
     image: brickBasil,
     alt: "Brick & Basil wood-fired pizzeria website interface",
+    href: "https://brick-n-basil-crafted.vercel.app/",
   },
   {
     number: "02",
@@ -61,6 +62,7 @@ const projects = [
     tags: ["UX Strategy", "Booking Flow"],
     image: dentalPlatform,
     alt: "Modern dental practice appointment platform interface",
+    href: "https://gentle-dental-gateway.vercel.app/",
   },
   {
     number: "03",
@@ -70,6 +72,7 @@ const projects = [
     tags: ["Art Direction", "Interactive Gallery"],
     image: interiorStudio,
     alt: "Luxury interior design studio website interface",
+    href: "https://aura-design-studio-blond.vercel.app/",
   },
   {
     number: "04",
@@ -79,6 +82,7 @@ const projects = [
     tags: ["Media System", "Conversion"],
     image: weddingPhotography,
     alt: "Cinematic wedding photography portfolio interface",
+    href: "https://vivah-wedding-photography--ayeshasiddiquap.replit.app",
   },
 ];
 
@@ -127,11 +131,16 @@ function Index() {
 
   return (
     <div className="site-shell">
+      <div className="ambient-background" aria-hidden="true">
+        <span className="ambient-glow ambient-glow-one" />
+        <span className="ambient-glow ambient-glow-two" />
+        <span className="ambient-glow ambient-glow-three" />
+      </div>
       <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
       <header className="site-header">
-        <a className="brand" href="#home" onClick={closeMenu} aria-label="A plus D Studio home">
-          <span className="brand-mark"><span>A</span><i>/</i><span>D</span></span>
-          <span className="brand-copy">SYSTEMS + STORIES</span>
+        <a className="brand" href="#home" onClick={closeMenu} aria-label="Build Form Agency home">
+          <span className="brand-mark"><span>BUILD</span><i>/</i><span>FORM</span></span>
+          <span className="brand-copy">AGENCY</span>
         </a>
 
         <nav className={menuOpen ? "nav-links is-open" : "nav-links"} aria-label="Primary navigation">
@@ -153,7 +162,7 @@ function Index() {
           ] }}
           transition={{ boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
         >
-          Start a project <ArrowUpRight size={15} />
+          Work with us <ArrowUpRight size={15} />
         </motion.a>
         <motion.button
           className="menu-toggle"
@@ -226,7 +235,7 @@ function Index() {
               whileHover={buttonHover}
               whileTap={tap}
             >
-              Initiate project discussion <ArrowRight size={17} />
+              Work with us <ArrowRight size={17} />
             </motion.a>
           </div>
           <a className="scroll-cue" href="#about" aria-label="Scroll to studio directors">
@@ -360,7 +369,7 @@ function Index() {
           >
             {projects.map((project) => (
               <motion.article className="project-card" key={project.title} variants={gridItem}>
-                <div className="project-image-wrap">
+                <a className="project-image-wrap" href={project.href} target="_blank" rel="noreferrer" aria-label={`View ${project.title} live website`}>
                   <motion.img
                     src={project.image}
                     alt={project.alt}
@@ -372,9 +381,9 @@ function Index() {
                   />
                   <span className="project-number">{project.number}</span>
                   <div className="project-arrow"><ArrowUpRight size={20} /></div>
-                </div>
+                </a>
                 <div className="project-meta">
-                  <div><p>{project.type}</p><h3>{project.title}</h3></div>
+                  <div><p>{project.type}</p><h3><a href={project.href} target="_blank" rel="noreferrer">{project.title}</a></h3></div>
                   <p className="project-description">{project.description}</p>
                 </div>
                 <div className="tag-list project-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
@@ -390,38 +399,31 @@ function Index() {
           <div className="contact-inner">
             <motion.div className="contact-copy" variants={reveal} {...inView}>
               <span className="section-index">04</span>
-              <div className="eyebrow"><span /> Start a conversation</div>
-              <h2>Ready to elevate your<br /><em>digital presence?</em></h2>
-              <p>Tell us what you’re building. We’ll bring the strategy, systems, and creative direction to move it forward.</p>
-              <a href="mailto:hello@adstudio.co">hello@adstudio.co <ArrowUpRight size={16} /></a>
+              <div className="eyebrow"><span /> Contact to work</div>
+              <h2>Let’s build something<br /><em>that performs.</em></h2>
+              <p>Have a project in mind? Reach Build Form Agency directly and tell us what you want to create.</p>
             </motion.div>
 
-            <motion.form className="contact-form" onSubmit={handleSubmit} variants={reveal} {...inView}>
-              <div className="form-row">
-                <label><span>Name</span><input name="name" type="text" placeholder="Your name" required /></label>
-                <label><span>Email</span><input name="email" type="email" placeholder="you@company.com" required /></label>
-              </div>
-              <label>
-                <span>Project type</span>
-                <select name="projectType" defaultValue="" required>
-                  <option value="" disabled>Select a service</option>
-                  <option>Web platform</option><option>SaaS product</option><option>Brand &amp; website</option><option>Other</option>
-                </select>
-              </label>
-              <label><span>Tell us about the project</span><textarea name="message" placeholder="Goals, scope, timeline..." rows={4} required /></label>
-              <motion.button className="submit-button" type="submit" whileHover={buttonHover} whileTap={tap}>
-                {submitted ? <><Check size={18} /> Message received</> : <>Initiate project discussion <ArrowRight size={18} /></>}
-              </motion.button>
-              {submitted && <p className="form-success" role="status">Thank you. We’ll be in touch to continue the conversation.</p>}
-            </motion.form>
+            <motion.div className="contact-details" variants={reveal} {...inView}>
+              <a href="mailto:buildformagency@gmail.com">
+                <span>Email us</span>
+                <strong>buildformagency@gmail.com</strong>
+                <ArrowUpRight size={20} />
+              </a>
+              <a href="tel:+919902995521">
+                <span>Call us</span>
+                <strong>+91 99029 95521</strong>
+                <ArrowUpRight size={20} />
+              </a>
+            </motion.div>
           </div>
         </section>
       </main>
 
       <footer>
-        <a className="brand footer-brand" href="#home"><span className="brand-mark"><span>A</span><i>/</i><span>D</span></span><span className="brand-copy">SYSTEMS + STORIES</span></a>
+        <a className="brand footer-brand" href="#home"><span className="brand-mark"><span>BUILD</span><i>/</i><span>FORM</span></span><span className="brand-copy">AGENCY</span></a>
         <p>Technical systems × creative direction</p>
-        <p>© 2026 A+D Studio</p>
+        <p>© 2026 Build Form Agency</p>
       </footer>
     </div>
   );

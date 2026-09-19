@@ -78,10 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "A+D Studio" },
+      { title: "Build Form Agency" },
       { name: "description", content: "Technical systems and creative direction for ambitious digital products." },
-      { name: "author", content: "A+D Studio" },
-      { property: "og:title", content: "A+D Studio" },
+      { name: "author", content: "Build Form Agency" },
+      { property: "og:title", content: "Build Form Agency" },
       { property: "og:description", content: "Technical systems and creative direction for ambitious digital products." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
