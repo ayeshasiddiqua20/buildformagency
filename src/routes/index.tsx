@@ -105,8 +105,8 @@ function Index() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const reduced = useReducedMotion();
 
-  const tap = reduced ? undefined : { scale: 0.97 };
-  const buttonHover = reduced ? undefined : { scale: 1.03, y: -3 };
+  const tap = reduced ? {} : { scale: 0.97 };
+  const buttonHover = reduced ? {} : { scale: 1.03, y: -3 };
 
   useEffect(() => {
     const updateProgress = () => {
@@ -146,7 +146,7 @@ function Index() {
           href="#contact"
           whileHover={buttonHover}
           whileTap={tap}
-          animate={reduced ? undefined : { boxShadow: [
+          animate={reduced ? {} : { boxShadow: [
             "inset 0 0 18px var(--cyan-soft), 0 0 0px var(--cyan-soft)",
             "inset 0 0 26px var(--cyan-soft), 0 0 22px var(--cyan-soft)",
             "inset 0 0 18px var(--cyan-soft), 0 0 0px var(--cyan-soft)",
@@ -183,7 +183,7 @@ function Index() {
               transition={{ duration: 0.6 }}
             >
               <motion.span
-                animate={reduced ? undefined : { opacity: [0.5, 1, 0.5], scale: [0.9, 1.2, 0.9] }}
+                animate={reduced ? {} : { opacity: [0.5, 1, 0.5], scale: [0.9, 1.2, 0.9] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
               />{" "}
               Web Systems &amp; Digital Architecture
@@ -245,7 +245,7 @@ function Index() {
               className="founder-card founder-technical"
               variants={reveal}
               {...inView}
-              whileHover={reduced ? undefined : {
+              whileHover={reduced ? {} : {
                 y: -8,
                 scale: 1.01,
                 borderColor: "color-mix(in oklab, var(--cyan) 70%, transparent)",
@@ -273,7 +273,7 @@ function Index() {
               className="founder-card founder-creative"
               variants={reveal}
               {...inView}
-              whileHover={reduced ? undefined : {
+              whileHover={reduced ? {} : {
                 y: -8,
                 scale: 1.01,
                 borderColor: "color-mix(in oklab, var(--amber) 70%, transparent)",
@@ -316,14 +316,14 @@ function Index() {
             <div className="featured-copy">
               <div className="badge-row">
                 <motion.span
-                  animate={reduced ? undefined : { y: [0, -4, 0] }}
+                  animate={reduced ? {} : { y: [0, -4, 0] }}
                   transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
                 >
                   Enterprise SaaS
                 </motion.span>
                 <motion.span
                   className="live-badge"
-                  animate={reduced ? undefined : { y: [0, -4, 0], opacity: [1, 0.78, 1] }}
+                  animate={reduced ? {} : { y: [0, -4, 0], opacity: [1, 0.78, 1] }}
                   transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
                 >
                   <i /> Live Infrastructure
@@ -367,7 +367,7 @@ function Index() {
                     width={1200}
                     height={800}
                     loading="lazy"
-                    whileHover={reduced ? undefined : { scale: 1.05 }}
+                    whileHover={reduced ? {} : { scale: 1.05 }}
                     transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
                   />
                   <span className="project-number">{project.number}</span>
